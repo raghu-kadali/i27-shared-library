@@ -118,7 +118,7 @@ pipeline {
                 script {
                     buildapp().call()
                     imagevalidation().call()
-                    dockerDeploy('dev',5232).call()
+                    dockerDeploy('dev',5032).call()
                 }
                 
             }
@@ -134,7 +134,7 @@ pipeline {
                script {
                     buildapp().call()
                     imagevalidation().call()
-                    dockerDeploy('test',6232).call()
+                    dockerDeploy('test',6032).call()
                 }
             }
         }
