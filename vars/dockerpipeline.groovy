@@ -14,7 +14,7 @@ pipeline {
     }
 
     environment {
-        APPLICATION_NAME = 'user'
+        APPLICATION_NAME = "${pipelineParams.app_Name}"
         // SONAR_HOST_URL = "http://35.188.126.241:9000"
         // SONAR_LOGIN_TOKEN = credentials('raghu_sonar_creds')
         POM_VERSION = readMavenPom().getVersion()
@@ -185,7 +185,7 @@ pipeline {
         
     }
 }   
-
+}
 
 // ------------------------***-these actual methods we write here to call in above stages to implement the every stage in pipeline simply and multiple tiems clal these methods******* ---------------------------------------------------------------------------
 
