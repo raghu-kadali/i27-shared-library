@@ -1,10 +1,10 @@
 
 // this is user page 
 //use shared libray so use import statement to library
-import com.i27-academy.k8s.k8s
+import com.i27academy.k8s.K8s
 def call (Map pipelineParams) {
     // instance of k8s class
-    def k8sInstance = new k8s(this) // this is jenkins instance that we pass to class constructor
+    def k8sInstance = new K8s(this) // this is jenkins instance that we pass to class constructor
 pipeline {
     agent {
         label 'java-slave'
