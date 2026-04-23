@@ -25,7 +25,7 @@ pipeline {
         DOCKER_CREDENTIALS = credentials('raghu_dockerhub_creds')
         DEV_CLUSTER_NAME = "i27-gke-cluster"
         DEV_CLUSTER_ZONE = "us-central1-a"  
-        DEV_CLUSTER_PROJECT_ID= "i27-gcp-project"
+        DEV_CLUSTER_PROJECT_ID= "project-026d6e39-3aa1-477a-82a"
     }
 
    // parametes: used to tale imnput
