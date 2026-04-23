@@ -1,9 +1,10 @@
 
 
-package com.i27-academy.k8s;
+package com.i27academy.k8s;
 
 class K8s {
     def jenkins
+    
     K8s(jenkins) {
         this.jenkins = jenkins
     }
