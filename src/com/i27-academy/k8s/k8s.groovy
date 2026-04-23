@@ -2,9 +2,9 @@
 
 package com.i27-academy.k8s;
 
-class k8s {
+class K8s {
     def jenkins
-    k8s(jenkins) {
+    K8s(jenkins) {
         this.jenkins = jenkins
     }
 }
