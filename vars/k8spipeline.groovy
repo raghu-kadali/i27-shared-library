@@ -53,7 +53,7 @@ pipeline {
         stage ('authenticate to GKE cluster') {
             steps {
                 script {
-                    // call the method to authenticate to GKE cluster
+                    // call the method to authenticate to GKE cluster from above
                     k8s.authlogin(env.DEV_CLUSTER_NAME, env.DEV_CLUSTER_ZONE, env.DEV_CLUSTER_PROJECT_ID)
                 }
             }
@@ -131,7 +131,9 @@ pipeline {
                 script {
                     buildapp().call()
                     imagevalidation().call()
-                    dockerDeploy('dev',5232).call()
+                    //dockerDeploy('dev',5232).call()
+                    // iam deploy in k8s not docker ok
+                    k8s.authlogin(env.DEV_CLUSTER_NAME, env.DEV_CLUSTER_ZONE, env.DEV_CLUSTER_PROJECT_ID)
                 }
                 
             }
