@@ -1,6 +1,6 @@
 
 
-package com.i27academy.k8s;
+package com.i27academy.k8s
 
 class K8s {
     def jenkins
@@ -8,21 +8,17 @@ class K8s {
     K8s(jenkins) {
         this.jenkins = jenkins
     }
-}
 
-//write the method to connect the jekins slave to gke clutsre then call later beascue this is sh library for kubernetes related methods
+    // ✅ method is INSIDE the class
+    def authlogin(ClusterName, Zone, ProjectID) {
+        jenkins.sh """
+        echo "Authenticating to GKE cluster..."
+        gcloud container clusters get-credentials ${ClusterName} --zone ${Zone} --project ${ProjectID}
+        kubectl get nodes
+        """
+    }
 
-def authlogin(ClusterName, Zone, ProjectID) {
-    jenkins.sh """
-    echo "Authenticating to GKE cluster..."
-    gcloud container clusters get-credentials ${ClusterName} --zone ${Zone} --project ${ProjectID}
-    kubectl get nodes
-    """
-}
-
-
-
-
+}   // ✅ class closes here at the end
 
 
 
