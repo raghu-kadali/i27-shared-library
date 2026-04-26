@@ -8,6 +8,14 @@ class K8s {
     K8s(jenkins) {
         this.jenkins = jenkins
     }
+
+    def authlogin(ClusterName, Zone, ProjectID) {
+        jenkins.sh """
+        echo "Authenticating to GKE cluster..."
+        gcloud container clusters get-credentials ${ClusterName} --zone ${Zone} --project ${ProjectID}
+        kubectl get nodes
+        """
+    }
 }
 
 
