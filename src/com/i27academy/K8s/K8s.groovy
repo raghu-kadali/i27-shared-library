@@ -1,15 +1,14 @@
 
-
 package com.i27academy.k8s
 
 class K8s {
+
     def jenkins
-    
+
     K8s(jenkins) {
         this.jenkins = jenkins
     }
 
-    // ✅ method is INSIDE the class
     def authlogin(ClusterName, Zone, ProjectID) {
         jenkins.sh """
         echo "Authenticating to GKE cluster..."
@@ -17,11 +16,7 @@ class K8s {
         kubectl get nodes
         """
     }
-
-}   // ✅ class closes here at the end
-
-
-
+}
 
 
 
