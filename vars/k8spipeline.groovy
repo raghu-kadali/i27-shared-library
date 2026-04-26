@@ -31,7 +31,7 @@ pipeline {
    // parametes: used to tale imnput
    
     parameters {
-        choice(name: 'build_only', // it creates dropdown to user in jenkins ui build parameters
+        choice(name: 'build_only', // it creates dropdown to user in jenkins ui build parameters ok
               choices: ['yes', 'no'], description: 'Build only') //first write 'no' takes default value
         // choice(name: 'SonarQube_Analysis', 
         //       choices: ['yes', 'no'], description: 'Perform SonarQube analysis')
