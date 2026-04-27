@@ -142,6 +142,7 @@ pipeline {
                     //dockerDeploy('dev',5232).call()
                     // iam deploy in k8s not docker ok
                     k8s.authlogin(env.DEV_CLUSTER_NAME, env.DEV_CLUSTER_ZONE, env.DEV_CLUSTER_PROJECT_ID)
+                    k8s.k8sdeploy()
                 }
                 
             }
