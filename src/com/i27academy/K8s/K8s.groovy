@@ -62,8 +62,6 @@ class K8s {
 
 
 
-
-
 // src/com/i27-academy/
 // ├── builds/
 // │   └── builds.groovy       ← Docker/Build methods only for ci 
