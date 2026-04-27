@@ -15,4 +15,15 @@ class K8s implements Serializable {
         """
     }
 
+
+// create a method to deploy k8s applications
+    def k8sdeploy() {
+        jenkins.sh """
+            echo "deploying into gke cluster"
+            ls -la
+            ls -la .cicd
+
+        """
+    }
+
 }
