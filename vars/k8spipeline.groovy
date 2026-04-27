@@ -2,9 +2,16 @@
 // this is user page 
 //use shared libray so use import statement to library
 import com.i27academy.k8s.K8s
+
+
 def call (Map pipelineParams) {
+
     // instance of k8s class
     def k8s = new K8s(this) // this is jenkins instance that we pass to class constructor
+
+
+
+    
 pipeline {
     agent {
         label 'java-slave'
@@ -23,6 +30,7 @@ pipeline {
         POM_PACKAGING = readMavenPom().getPackaging()
         DOCKER_HUB = "docker.io/dockerhubraghu"
         DOCKER_CREDENTIALS = credentials('raghu_dockerhub_creds')
+        // kuberenetes details for dev cluster
         DEV_CLUSTER_NAME = "cart-cluster"
         DEV_CLUSTER_ZONE = "us-central1-a"  
         DEV_CLUSTER_PROJECT_ID= "project-026d6e39-3aa1-477a-82a"
