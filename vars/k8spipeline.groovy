@@ -23,7 +23,7 @@ pipeline {
     }
 
     environment {
-        APPLICATION_NAME = "${pipelineParams.app_Name}"
+        APPLICATION_NAME = "${pipelineParams.appName}"
         // SONAR_HOST_URL = "http://35.188.126.241:9000"
         // SONAR_LOGIN_TOKEN = credentials('raghu_sonar_creds')
         POM_VERSION = readMavenPom().getVersion()

@@ -9,6 +9,8 @@ class K8s {
         this.jenkins = jenkins
     }
 
+}
+  // implemnet the logic to connect the k8s cluster 
     def authlogin(ClusterName, Zone, ProjectID) {
         jenkins.sh """
         echo "Authenticating to GKE cluster..."
@@ -16,7 +18,7 @@ class K8s {
         kubectl get nodes
         """
     }
-}
+
 
 
 
