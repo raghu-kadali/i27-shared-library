@@ -20,7 +20,7 @@ class K8s implements Serializable {
     def k8sdeploy() {
         jenkins.sh """
             echo "deploying into gke cluster"
-            kubectl apply -f .cicd.k8s_dev.yaml -n cart-dev-ns
+           kubectl apply -f .cicd/k8s/k8s_dev.yaml -n cart-dev-ns
 
         """
     }
