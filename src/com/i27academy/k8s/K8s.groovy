@@ -24,7 +24,7 @@ def k8sdeploy() {
         ls -la .cicd/k8s/
 
         echo "deploying into gke cluster"
-        kubectl apply -f .cicd/k8s/k8s_dev.yaml -n cart-dev-ns
+        kubectl apply -f ./.cicd/k8s_dev.yaml -n cart-dev-ns
     """
 }
 }
