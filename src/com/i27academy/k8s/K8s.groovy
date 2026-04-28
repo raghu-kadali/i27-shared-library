@@ -21,10 +21,10 @@ def k8sdeploy() {
     jenkins.sh """
         echo "Current dir: \$(pwd)"
         ls -la
-        ls -la .cicd/k8s/
+        ls -la .cicd/
 
         echo "deploying into gke cluster"
-        kubectl apply -f ./.cicd/k8s_dev.yaml -n cart-dev-ns
+        kubectl apply -f .cicd/k8s_dev.yaml -n cart-dev-ns
     """
 }
 }
