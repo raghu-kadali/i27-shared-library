@@ -68,19 +68,19 @@ pipeline {
     }
 
     stages {
-        stage ('authenticate to GKE cluster') {
-            steps {
-                script {
-                    def docker_image = "${env.DOCKER_HUB}/${env.APPLICATION_NAME}:$GIT_COMMIT"
-                    // call the method to authenticate to GKE cluster from above
-                    k8s.authlogin("${env.DEV_CLUSTER_NAME}", "${env.DEV_CLUSTER_ZONE}", "${env.DEV_CLUSTER_PROJECT_ID}")
+        // stage ('authenticate to GKE cluster') {
+        //     steps {
+        //         script {
+        //             def docker_image = "${env.DOCKER_HUB}/${env.APPLICATION_NAME}:$GIT_COMMIT"
+        //             // call the method to authenticate to GKE cluster from above
+        //             k8s.authlogin("${env.DEV_CLUSTER_NAME}", "${env.DEV_CLUSTER_ZONE}", "${env.DEV_CLUSTER_PROJECT_ID}")
 
-                    imagevalidation().call()
-                    k8s.k8sdeploy("${env.K8S_DEV_FILE}", docker_image, "${env.DEV_NAMESPACE}")
+        //             imagevalidation().call()
+        //             k8s.k8sdeploy("${env.K8S_DEV_FILE}", docker_image, "${env.DEV_NAMESPACE}")
                     
-                }
-            }
-        }
+        //         }
+        //     }
+        // }
         stage('Build') {
            //writing when condition for each satge level only by use parameter input
            when {
@@ -151,15 +151,18 @@ pipeline {
                 }
             }
             steps {
+                stage ('authenticate to GKE cluster') {
+            steps {
                 script {
-                    buildapp().call()
+                    def docker_image = "${env.DOCKER_HUB}/${env.APPLICATION_NAME}:$GIT_COMMIT"
+                    // call the method to authenticate to GKE cluster from above
+                    k8s.authlogin("${env.DEV_CLUSTER_NAME}", "${env.DEV_CLUSTER_ZONE}", "${env.DEV_CLUSTER_PROJECT_ID}")
+
                     imagevalidation().call()
-                    //dockerDeploy('dev',5232).call()
-                    // iam deploy in k8s not docker ok
-                    k8s.authlogin(env.DEV_CLUSTER_NAME, env.DEV_CLUSTER_ZONE, env.DEV_CLUSTER_PROJECT_ID)
-                    k8s.k8sdeploy()
+                    k8s.k8sdeploy("${env.K8S_DEV_FILE}", docker_image, "${env.DEV_NAMESPACE}")
                 }
-                
+            }
+        }
             }
         }
         
