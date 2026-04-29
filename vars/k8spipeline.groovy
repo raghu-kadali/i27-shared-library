@@ -76,7 +76,7 @@ pipeline {
                     k8s.authlogin(env.DEV_CLUSTER_NAME, env.DEV_CLUSTER_ZONE, env.DEV_CLUSTER_PROJECT_ID)
 
                     imagevalidation().call
-                    k8s.k8sdeploy("$env.K8S_DEV_FILE")"", docker_image,"${env.DEV_NAMESPACE}"
+                   k8s.k8sdeploy("${env.K8S_DEV_FILE}", docker_image, "${env.DEV_NAMESPACE}")
                     
                 }
             }
