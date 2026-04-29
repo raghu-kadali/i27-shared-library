@@ -164,7 +164,7 @@ pipeline {
             }
         }
             }
-        }s
+        }
         
         stage('Deploy to test env') { 
             when {
