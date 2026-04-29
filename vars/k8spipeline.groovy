@@ -34,6 +34,16 @@ pipeline {
         DEV_CLUSTER_NAME = "cart-cluster"
         DEV_CLUSTER_ZONE = "us-central1-a"  
         DEV_CLUSTER_PROJECT_ID= "project-026d6e39-3aa1-477a-82a"
+        // file name for deployments
+        K8S_DEV_FILE = "k8s_dev.yaml"
+        K8S_TEST_FILE = "k8s_test.yaml"
+        K8S_STAGE_FILE = "k8s_stage.yaml"
+        K8S_PROD_FILE = "k8s_prod.yaml"
+        // default namespaces
+        DEV_NAMESPACE = "cart-dev-ns" 
+        TEST_NAMESPACE = "cart-test-ns"
+        STAGE_NAMESPACE= "cart-stage-ns"
+        PROD_NAMESPACE = "cart-prod-ns"
     }
 
    // parametes: used to tale imnput
@@ -61,8 +71,13 @@ pipeline {
         stage ('authenticate to GKE cluster') {
             steps {
                 script {
+                    def docker_image = "${env.DOCKER_HUB}/${env.APPLICATION_NAME}:$GIT_COMMIT"
                     // call the method to authenticate to GKE cluster from above
                     k8s.authlogin(env.DEV_CLUSTER_NAME, env.DEV_CLUSTER_ZONE, env.DEV_CLUSTER_PROJECT_ID)
+
+                    imagevalidation().call
+                    k8s.k8sdeploy("$env.K8S_DEV_FILE")"", docker_image,"${env.DEV_NAMESPACE}"
+                    
                 }
             }
         }

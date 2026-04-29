@@ -17,14 +17,15 @@ class K8s implements Serializable {
 
 
 // create a method to deploy k8s applications
-def k8sdeploy() {
+def k8sdeploy(filename,docker_image,namespace) {
     jenkins.sh """
         echo "Current dir: \$(pwd)"
         ls -la
         ls -la .cicd/
 
         echo "deploying into gke cluster"
-        kubectl apply -f .cicd/k8s_dev.yaml -n cart-dev-ns
+        sed -i |DIT| ${docker_image}|g" .cicd/${filename}
+        kubectl apply -f .cicd/k8s_dev.yaml -n ${namespace}
     """
 }
 }
