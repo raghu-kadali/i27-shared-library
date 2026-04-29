@@ -144,25 +144,19 @@ pipeline {
             }
         }
 
-        stage('Deploy to dev env') {
+            stage('Deploy to dev env') {
             when {
                 anyOf {
-                        expression { params.deploy_to_dev == 'yes' }
+                    expression { params.deploy_to_dev == 'yes' }
                 }
             }
             steps {
-                stage ('authenticate to GKE cluster') {
-                    steps {
-                        script {
-                            def docker_image = "${env.DOCKER_HUB}/${env.APPLICATION_NAME}:$GIT_COMMIT"
-                            // call the method to authenticate to GKE cluster from above
-                            k8s.authlogin("${env.DEV_CLUSTER_NAME}", "${env.DEV_CLUSTER_ZONE}", "${env.DEV_CLUSTER_PROJECT_ID}")
-
-                            imagevalidation().call()
-                            k8s.k8sdeploy("${env.K8S_DEV_FILE}", docker_image, "${env.DEV_NAMESPACE}")
-                        }
-            }
-        }
+                script {
+                    def docker_image = "${env.DOCKER_HUB}/${env.APPLICATION_NAME}:$GIT_COMMIT"
+                    k8s.authlogin("${env.DEV_CLUSTER_NAME}", "${env.DEV_CLUSTER_ZONE}", "${env.DEV_CLUSTER_PROJECT_ID}")
+                    imagevalidation().call()
+                    k8s.k8sdeploy("${env.K8S_DEV_FILE}", docker_image, "${env.DEV_NAMESPACE}")
+                }
             }
         }
         
