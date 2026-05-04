@@ -166,7 +166,7 @@ def dockerBuildandPush() {
     return {
         echo "*** Building Docker image and pushing to registry"
         // these line explination under doubts section
-        sh "docker build --no-cache -t ${env.DOCKER_HUB}/${env.APPLICATION_NAME}:$GIT_COMMIT"
+        sh "docker build --no-cache -t ${env.DOCKER_HUB}/${env.APPLICATION_NAME}:$GIT_COMMIT ./.cicd"
         echo "*** logging into docker registry ***"
         //logins not hardcodesStored safely in Jenkins Credentials Manager
         sh "docker login -u ${DOCKER_CREDENTIALS_USR} -p ${DOCKER_CREDENTIALS_PSW}"
