@@ -1,4 +1,4 @@
-
+// this is node pipine not java ok remeber sligly diffenrt these pipeline
 // this is user page 
 //use shared libray so use import statement to library
 import com.i27academy.k8s.K8s
@@ -24,10 +24,6 @@ pipeline {
 
     environment {
         APPLICATION_NAME = "${pipelineParams.appName}"
-        // SONAR_HOST_URL = "http://35.188.126.241:9000"
-        // SONAR_LOGIN_TOKEN = credentials('raghu_sonar_creds')
-        POM_VERSION = readMavenPom().getVersion()
-        POM_PACKAGING = readMavenPom().getPackaging()
         DOCKER_HUB = "docker.io/dockerhubraghu"
         DOCKER_CREDENTIALS = credentials('raghu_dockerhub_creds')
         // kuberenetes details for dev cluster
@@ -49,10 +45,6 @@ pipeline {
    // parametes: used to tale imnput
    
     parameters {
-        choice(name: 'build_only', // it creates dropdown to user in jenkins ui build parameters ok
-              choices: ['yes', 'no'], description: 'Build only') //first write 'no' takes default value
-        // choice(name: 'SonarQube_Analysis', 
-        //       choices: ['yes', 'no'], description: 'Perform SonarQube analysis')
         choice(name: 'docker_build_and_push', 
              choices: ['yes', 'no'], description: 'Build and push Docker image')
         choice(name: 'deploy_to_dev', 
@@ -68,67 +60,6 @@ pipeline {
     }
 
     stages {
-        // stage ('authenticate to GKE cluster') {
-        //     steps {
-        //         script {
-        //             def docker_image = "${env.DOCKER_HUB}/${env.APPLICATION_NAME}:$GIT_COMMIT"
-        //             // call the method to authenticate to GKE cluster from above
-        //             k8s.authlogin("${env.DEV_CLUSTER_NAME}", "${env.DEV_CLUSTER_ZONE}", "${env.DEV_CLUSTER_PROJECT_ID}")
-
-        //             imagevalidation().call()
-        //             k8s.k8sdeploy("${env.K8S_DEV_FILE}", docker_image, "${env.DEV_NAMESPACE}")
-                    
-        //         }
-        //     }
-        // }
-        stage('Build') {
-           //writing when condition for each satge level only by use parameter input
-           when {
-                anyOf { // if any  one of the condition is true then only stage will execute
-                    expression { params.build_only == 'yes' }
-                    expression { params.docker_build_and_push == 'yes' }
-                   
-                }
-
-           }
-            steps { // if build application we need to call method : that method build steps available.
-                script {
-                    buildapp().call()
-                }
-            }
-        }
-
-        // stage('SonarQube Analysis') {
-        //     when {
-        //         anyOf { 
-        //             expression { params.SonarQube_Analysis == 'yes' }
-        //         }
-        //     }
-        //     steps {
-        //         echo "*** Starting SonarQube analysis"
-        //         withSonarQubeEnv('SonarQubeServer') {
-        //             sh """
-        //                 mvn clean verify sonar:sonar \
-        //                     -Dsonar.projectKey=i27-eureka \
-        //                     -Dsonar.host.url=${env.SONAR_HOST_URL} \
-        //                     -Dsonar.login=${env.SONAR_LOGIN_TOKEN}
-        //             """
-        //         }
-        //     }
-        //     post {
-        //         always {
-        //             timeout(time: 1, unit: 'HOURS') {
-        //                 waitForQualityGate abortPipeline: true 
-        //             }
-        //         }
-        //     }
-        // }
-
-        // stage('formatBuild') {
-        //     steps {
-        //         echo "*** Formatting code using Spotless"
-        //     }
-        // }
 
         stage('Docker Build and Push') {
                 when {
@@ -240,7 +171,7 @@ def dockerBuildandPush() {
         echo "*** Building Docker image and pushing to registry"
         sh "cp target/i27-${env.APPLICATION_NAME}-${env.POM_VERSION}.${env.POM_PACKAGING} ./.cicd"
         // these line explination under doubts section
-        sh "docker build --no-cache --build-arg JAR_SOURCE=i27-${env.APPLICATION_NAME}-${env.POM_VERSION}.${env.POM_PACKAGING} -t ${env.DOCKER_HUB}/${env.APPLICATION_NAME}:$GIT_COMMIT ./.cicd"
+        sh "docker build --no-cache -t ${env.DOCKER_HUB}/${env.APPLICATION_NAME}:$GIT_COMMIT ./.cicd"
         echo "*** logging into docker registry ***"
         //logins not hardcodesStored safely in Jenkins Credentials Manager
         sh "docker login -u ${DOCKER_CREDENTIALS_USR} -p ${DOCKER_CREDENTIALS_PSW}"
@@ -289,7 +220,6 @@ def imagevalidation() {
             echo "*** Docker image validation successful ***"
         } catch (error) { 
             println ( "*****docker image not availble in registry, so we create and push the image to registry***")
-            buildapp().call()  //OK BUILD APP FIRST 
             dockerBuildandPush().call() // THEN CALL THE DOCKER BUILD and push method  ok
         }
 
