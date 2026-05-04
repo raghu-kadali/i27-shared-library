@@ -17,10 +17,6 @@ pipeline {
         label 'java-slave'
     }
 
-    tools {
-        maven 'maven-3.8.9'
-        jdk 'JDK-21'
-    }
 
     environment {
         APPLICATION_NAME = "${pipelineParams.appName}"
@@ -169,7 +165,6 @@ def buildapp(){
 def dockerBuildandPush() {
     return {
         echo "*** Building Docker image and pushing to registry"
-        sh "cp target/i27-${env.APPLICATION_NAME}-${env.POM_VERSION}.${env.POM_PACKAGING} ./.cicd"
         // these line explination under doubts section
         sh "docker build --no-cache -t ${env.DOCKER_HUB}/${env.APPLICATION_NAME}:$GIT_COMMIT ./.cicd"
         echo "*** logging into docker registry ***"
