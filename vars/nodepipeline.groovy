@@ -165,12 +165,15 @@ def buildapp(){
 def dockerBuildandPush() {
     return {
         echo "*** Building Docker image and pushing to registry"
-        // these line explination under doubts section
-        sh "docker build --no-cache -t ${env.DOCKER_HUB}/${env.APPLICATION_NAME}:$GIT_COMMIT ./.cicd"
-        echo "*** logging into docker registry ***"
-        //logins not hardcodesStored safely in Jenkins Credentials Manager
+
+        // ✅ Fix: Use '.' as the build context (full repo root)
+        // -f flag explicitly points to the Dockerfile inside .cicd/
+        sh "docker build --no-cache -t ${env.DOCKER_HUB}/${env.APPLICATION_NAME}:$GIT_COMMIT -f ./.cicd/Dockerfile ."
+        
+        echo "*** Logging into docker registry ***"
         sh "docker login -u ${DOCKER_CREDENTIALS_USR} -p ${DOCKER_CREDENTIALS_PSW}"
-        echo "*** pushing docker image to registry***"
+        
+        echo "*** Pushing docker image to registry ***"
         sh "docker push ${env.DOCKER_HUB}/${env.APPLICATION_NAME}:$GIT_COMMIT"
     }
 }
