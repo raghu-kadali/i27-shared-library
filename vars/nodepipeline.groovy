@@ -227,7 +227,7 @@ def imagevalidation() {
             echo "*** Docker image validation successful ***"
         } catch (error) { 
             println ( "*****docker image not availble in registry, so we create and push the image to registry***")
-            buildapp().call()  //OK BUILD APP FIRST 
+          //  buildapp().call()  no neede n=because docker builad and push no build needed
             dockerBuildandPush().call() // THEN CALL THE DOCKER BUILD and push method  ok
         }
 
