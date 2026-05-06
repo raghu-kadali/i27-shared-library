@@ -260,7 +260,7 @@ def dockerBuildandPush() {
         //logins not hardcodesStored safely in Jenkins Credentials Manager
         sh "docker login ${env.JFROG_DOCKER_REGISTRY} -u ${JFROG_CREDS_USR} -p ${JFROG_CREDS_PSW}"
         echo "*** pushing docker image to registry***"
-        sh "docker push ${env.JFROG_DOCKER_REGISTRY}/${env.JFROG_DOCKER_REPO_NAME }/${env.APPLICATION_NAME}:$GIT_COMMIT"
+        sh "docker push ${env.JFROG_DOCKER_REGISTRY}/${env.JFROG_DOCKER_REPO_NAME}/${env.APPLICATION_NAME}:$GIT_COMMIT"
     }
 }
 

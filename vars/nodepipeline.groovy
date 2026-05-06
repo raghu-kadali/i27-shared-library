@@ -177,7 +177,7 @@ def dockerBuildandPush() {
 
         // ✅ Fix: Use '.' as the build context (full repo root)
         // -f flag explicitly points to the Dockerfile inside .cicd/
-        sh "docker build --no-cache -t ${env.DOCKER_HUB}/${env.APPLICATION_NAME}:$GIT_COMMIT -f ./.cicd/Dockerfile ."
+       sh "docker build --no-cache -t ${env.JFROG_DOCKER_REGISTRY}/${env.JFROG_DOCKER_REPO_NAME}/${env.APPLICATION_NAME}:$GIT_COMMIT -f ./.cicd/Dockerfile ."
         
         echo "*** Logging into docker registry ***"
           sh "docker login ${env.JFROG_DOCKER_REGISTRY} -u ${JFROG_CREDS_USR} -p ${JFROG_CREDS_PSW}"
