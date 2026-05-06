@@ -258,7 +258,7 @@ def dockerBuildandPush() {
         sh "docker build --no-cache --build-arg JAR_SOURCE=i27-${env.APPLICATION_NAME}-${env.POM_VERSION}.${env.POM_PACKAGING} -t ${env.JFROG_DOCKER_REGISTRY}/${env.DOCKER_REPO_NAME}/${env.APPLICATION_NAME}:$GIT_COMMIT ./.cicd"
         echo "*** logging into docker registry ***"
         //logins not hardcodesStored safely in Jenkins Credentials Manager
-        sh "docker login -u ${JFROG_CREDS_USR} -p ${JFROG_CREDS_PSW}"
+        sh "docker login ${env.JFROG_DOCKER_REGISTRY} -u ${JFROG_CREDS_USR} -p ${JFROG_CREDS_PSW}"
         echo "*** pushing docker image to registry***"
         sh "docker push ${env.JFROG_DOCKER_REGISTRY}/${env.DOCKER_REPO_NAME}/${env.APPLICATION_NAME}:$GIT_COMMIT"
     }
