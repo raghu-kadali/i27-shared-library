@@ -35,7 +35,7 @@ pipeline {
     //JFROG DETAILS
         JFROG_DOCKER_REGISTRY ="trial8oqwds.jfrog.io"
         JFROG_DOCKER_REPO_NAME = "private1-docker"
-        JFROG_CREDAS = credentials("JFROG_CREDS") //AVAIBLE IN MANAGE JENKINS
+        JFROG_CREDS = credentials("JFROG_CREDS") //AVAIBLE IN MANAGE JENKINS
 
 
 
