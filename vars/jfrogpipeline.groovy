@@ -167,7 +167,7 @@ pipeline {
             }
             steps {
                 script {
-                    def docker_image = "${env.JFROG_DOCKER_REGISTRY}/${env.DOCKER_REPO_NAME}/${env.APPLICATION_NAME}:$GIT_COMMIT"
+                    def docker_image = "${env.JFROG_DOCKER_REGISTRY}/${env.JFROG_DOCKER_REPO_NAME}/${env.APPLICATION_NAME}:$GIT_COMMIT"
                     k8s.authlogin("${env.DEV_CLUSTER_NAME}", "${env.DEV_CLUSTER_ZONE}", "${env.DEV_CLUSTER_PROJECT_ID}")
                     imagevalidation().call()
                     k8s.k8sdeploy("${env.K8S_DEV_FILE}", docker_image, "${env.DEV_NAMESPACE}")
@@ -184,9 +184,10 @@ pipeline {
             }
             steps {
                script {
-                    buildapp().call()
+                    def docker_image = "${env.JFROG_DOCKER_REGISTRY}/${env.JFROG_DOCKER_REPO_NAME}/${env.APPLICATION_NAME}:$GIT_COMMIT"
+                    k8s.authlogin("${env.TEST_CLUSTER_NAME}", "${env.TEST_CLUSTER_ZONE}", "${env.TEST_CLUSTER_PROJECT_ID}")
                     imagevalidation().call()
-                    dockerDeploy('test',6232).call()
+                    k8s.k8sdeploy("${env.K8S_TEST_FILE}", docker_image, "${env.TEST_NAMESPACE}")
                 }
             }
         }
@@ -204,10 +205,10 @@ pipeline {
             }
             steps {
                 script {
-                    //image validation
-                    buildapp().call()  
-                    imagevalidation().call() 
-                    dockerDeploy('stage',7232).call()
+                    def docker_image = "${env.JFROG_DOCKER_REGISTRY}/${env.JFROG_DOCKER_REPO_NAME}/${env.APPLICATION_NAME}:$GIT_COMMIT"
+                    k8s.authlogin("${env.STAGE_CLUSTER_NAME}", "${env.STAGE_CLUSTER_ZONE}", "${env.STAGE_CLUSTER_PROJECT_ID}")
+                    imagevalidation().call()
+                    k8s.k8sdeploy("${env.K8S_STAGE_FILE}", docker_image, "${env.STAGE_NAMESPACE}")
                  }
             }
         }
@@ -230,7 +231,10 @@ pipeline {
                 }
                 script {
                      
-                      dockerDeploy('prod',8232).call()
+                    def docker_image = "${env.JFROG_DOCKER_REGISTRY}/${env.JFROG_DOCKER_REPO_NAME}/${env.APPLICATION_NAME}:$GIT_COMMIT"
+                    k8s.authlogin("${env.PROD_CLUSTER_NAME}", "${env.PROD_CLUSTER_ZONE}", "${env.PROD_CLUSTER_PROJECT_ID}")
+                    imagevalidation().call()
+                    k8s.k8sdeploy("${env.K8S_PROD_FILE}", docker_image, "${env.PROD_NAMESPACE}")
                  } 
             }
         }
