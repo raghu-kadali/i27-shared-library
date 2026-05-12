@@ -304,7 +304,7 @@ def imagevalidation() {
     return {
         println ("*** Validating Docker image in registry ***")
         try {
-            sh "docker pull ${env.JFROG_DOCKER_REGISTRY}/${env.DOCKER_REPO_NAME}/${env.APPLICATION_NAME}:$GIT_COMMIT"
+            sh "docker pull ${env.JFROG_DOCKER_REGISTRY}/${env.JFROG_DOCKER_REPO_NAME}/${env.APPLICATION_NAME}:$GIT_COMMIT"
             echo "*** Docker image validation successful ***"
         } catch (error) { 
             println ( "*****docker image not availble in registry, so we create and push the image to registry***")
